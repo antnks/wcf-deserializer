@@ -1,4 +1,4 @@
-#WCFDSer-ngng
+# WCFDSer-ngng
 
 
 
@@ -28,14 +28,25 @@ cheers
 Some screenshots:
 
 Changing in repeater:
-![alt changing repeater](http://i.imgur.com/Udwd9mk.png)
+
+
+![image-decoded-request.png](image-decoded-request.png)
+
 
 
 request/response
-![alt req/resp](http://i.imgur.com/ZQa4D6o.png)
+
+
+![image-raw-request-response.png](image-raw-request-response.png)
+
 
 flagged in scanner
-![alt scanner](http://i.imgur.com/aokg1Gy.png)
+
+
+![image-active-scan.png](image-active-scan.png)
+
 
 SQLMap supported
-![alt SQLMap](http://i.imgur.com/5gqSAz5.png)
+
+
+![image-sqlmap.png](image-sqlmap.png)
