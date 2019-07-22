@@ -27,8 +27,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.IO;
@@ -37,29 +35,36 @@ public class NBFSNetConsole
 {
     public static void Main(string[] argv)
     {
-        if (argv.Length == 2)
-        {
-            try
-            {
-                NBFSNet NBFS = new NBFSNet();
-
-                if (argv[0].ToLower().Equals("encode"))
-                {
-                    Console.WriteLine(Convert.ToBase64String(NBFS.EncodeBinaryXML(System.Text.ASCIIEncoding.ASCII.GetString(Convert.FromBase64String(argv[1])))));
-                }
-                else
-                {
-                    Console.WriteLine(Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(NBFS.DecodeBinaryXML(Convert.FromBase64String(argv[1])))));
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(e.Message)));
-            }
-        }
-        else
-        {
+        if (argv.Length < 1 || argv.Length > 2)
             Console.WriteLine("Usage: NBFS [encode|decode] Base64Data\n\nNOTE: All output, including exceptions, will be returned as a Base64 string.");
+
+        string input;
+        if (argv.Length == 1)
+            input = Console.ReadLine();
+        else
+            input = argv[1];
+
+        var binaryInput = Convert.FromBase64String(input);
+
+        try
+        {
+            NBFSNet NBFS = new NBFSNet();
+
+            byte[] output;
+            if (argv[0].Equals("encode", StringComparison.InvariantCultureIgnoreCase))
+            {
+                output = NBFS.EncodeBinaryXML(Encoding.ASCII.GetString(binaryInput));
+            }
+            else
+            {
+                output = Encoding.UTF8.GetBytes(NBFS.DecodeBinaryXML(binaryInput));
+            }
+
+            Console.WriteLine(Convert.ToBase64String(output));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes(e.Message)));
         }
     }
 }
