@@ -11,6 +11,7 @@ Basically, it will deserialize, modify, reserialize, send on and (only in the ca
 nb. that it does make use of the "Via" header to allow it to mark requests that need serialization (and let it pass properly formatted http checks in sqlmap). If you need the via header for something, you're going to have to use something else, change the SERIALIZEHEADER in the utils file and recompile.
 
 Compile:
+
 	pushd src/NBFS/
 	csc NBFS.cs
 	popd
