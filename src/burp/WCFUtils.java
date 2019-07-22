@@ -96,7 +96,7 @@ public class WCFUtils
 
 			String line;
 			String out;
-			String[] commandWithArgs = { "NBFS.exe" , strEncodeDecode, strBase64Content };
+			String[] commandWithArgs = { "dotnet", "NBFS.dll" , strEncodeDecode, strBase64Content };
 			Process p = Runtime.getRuntime().exec(commandWithArgs);
 			BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			if ((line = input.readLine()) != null)
