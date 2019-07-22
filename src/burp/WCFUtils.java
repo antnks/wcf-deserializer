@@ -24,14 +24,15 @@ import java.io.Console;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public class WCFUtils {
+public class WCFUtils
+{
     public static String WCFHeader = "msbin";
     public static String SERIALIZEHEADER = "Via:WCFSERIALIZED-GOODNESS";
 
-	public static byte[] toXML(byte[] message, IExtensionHelpers helpers)
+    public static byte[] toXML(byte[] message, IExtensionHelpers helpers)
     {
-		try {
-
+        try
+        {
             List<String> headers = helpers.analyzeRequest(message).getHeaders();
             int bodyOffset = helpers.analyzeRequest(message).getBodyOffset();
             byte[] body = new byte[message.length - bodyOffset];
@@ -44,24 +45,28 @@ public class WCFUtils {
 
             return helpers.buildHttpMessage(headers, decoded);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return message;
-		}
-	}
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return message;
+        }
+    }
 
-	public static byte[] fromXML(byte[] xml, IExtensionHelpers helpers)
+    public static byte[] fromXML(byte[] xml, IExtensionHelpers helpers)
     {
-
-		try {
+        try
+        {
             byte[] decoded = helpers.base64Decode(encodeDecodeWcf(false, helpers.bytesToString(xml), helpers));
             return  decoded;
 
-		} catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             System.out.println("Error deserializing XML " + ex.getMessage());
             return null;
-		}
-	}
+        }
+    }
 
     public static String encodeDecodeWcf(boolean isBinary, String content, IExtensionHelpers helpers)
     {
@@ -76,13 +81,10 @@ public class WCFUtils {
             String[] commandWithArgs = { "NBFS.exe" , strEncodeDecode, strBase64Content };
             Process p = Runtime.getRuntime().exec(commandWithArgs);
             BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            if ((line = input.readLine()) != null) {
+            if ((line = input.readLine()) != null)
                 out = line;
-            }
             else
-            {
                 out = "An Error Has Occurred";
-            }
             input.close();
             return out;
         }
