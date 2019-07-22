@@ -13,14 +13,14 @@ nb. that it does make use of the "Via" header to allow it to mark requests that 
 Compile:
 
 	pushd src/NBFS/
-	csc NBFS.cs
+	dotnet build
 	popd
 	gradle build -Dorg.gradle.java.home="c:\Program Files\Java\jdk"
 	gradle jar -Dorg.gradle.java.home="c:\Program Files\Java\jdk"
 
 Usage:
 
-	Place the NBFS.exe wherever you run burp.
+	Place the NBFS.dll and NBFS.runtimeconfig.json wherever you run burp.
 	For any problems, look in stdout (ie. run java -jar burp.jar and look in the console window)
 
 I've also included a vulnerable WCF service (and client) as there don't seem to be any around. It is vulnerable to SQL injection, and has its own readme. 
