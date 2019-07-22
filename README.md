@@ -10,10 +10,15 @@ Basically, it will deserialize, modify, reserialize, send on and (only in the ca
 
 nb. that it does make use of the "Via" header to allow it to mark requests that need serialization (and let it pass properly formatted http checks in sqlmap). If you need the via header for something, you're going to have to use something else, change the SERIALIZEHEADER in the utils file and recompile.
 
+Compile:
+
+	gradle build -Dorg.gradle.java.home="c:\Program Files\Java\jdk"
+	gradle jar -Dorg.gradle.java.home="c:\Program Files\Java\jdk"
+
 Usage:
+
 	Place the NBFS.exe wherever you run burp.
 	For any problems, look in stdout (ie. run java -jar burp.jar and look in the console window)
-
 
 I've also included a vulnerable WCF service (and client) as there don't seem to be any around. It is vulnerable to SQL injection, and has its own readme. 
 	
