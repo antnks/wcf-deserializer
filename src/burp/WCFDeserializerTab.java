@@ -23,13 +23,14 @@ import java.io.IOException;
 
 
 class WCFDeserializerTab implements IMessageEditorTab
- {
+{
 	private ITextEditor txtInput;
 	private byte[] currentMessage;
 	private IBurpExtenderCallbacks callbacks;
 	private IExtensionHelpers helpers;
 
-	public WCFDeserializerTab(IMessageEditorController controller, boolean editable, IBurpExtenderCallbacks callbacks2, IExtensionHelpers helpers2) {
+	public WCFDeserializerTab(IMessageEditorController controller, boolean editable, IBurpExtenderCallbacks callbacks2, IExtensionHelpers helpers2)
+	{
 		callbacks = callbacks2;
 		helpers = helpers2;
 		// create an instance of Burp's text editor, to display our deserialized
@@ -43,28 +44,34 @@ class WCFDeserializerTab implements IMessageEditorTab
 	//
 
 	@Override
-	public String getTabCaption() {
+	public String getTabCaption()
+	{
 		return "Deserialized WCF";
 	}
 
 	@Override
-	public Component getUiComponent() {
+	public Component getUiComponent()
+	{
 		return txtInput.getComponent();
 	}
 
 	@Override
-	public boolean isEnabled(byte[] content, boolean isRequest) {
+	public boolean isEnabled(byte[] content, boolean isRequest)
+	{
 		return WCFUtils.isWCF(content, helpers);
 	}
 
 	@Override
-	public void setMessage(byte[] content, boolean isRequest) {
-		if (content == null) {
+	public void setMessage(byte[] content, boolean isRequest)
+	{
+		if (content == null)
+		{
 			// clear our display
 			txtInput.setText(null);
 			txtInput.setEditable(false);
-		} else {
-
+		}
+		else
+		{
 			//grab body
 			int bodyOffset = helpers.analyzeRequest(content).getBodyOffset();
 			byte[] body = new byte[content.length - bodyOffset];
@@ -74,7 +81,7 @@ class WCFDeserializerTab implements IMessageEditorTab
 
 			// deserialize the parameter value
 
-			txtInput.setText(helpers.base64Decode(WCFUtils.encodeDecodeWcf(true, helpers.bytesToString(body), helpers)));
+			txtInput.setText(helpers.base64Decode(WCFUtils.encodeDecodeWcf(true, helpers.bytesToString(body), callbacks, helpers)));
 			txtInput.setEditable(true);
 		}
 
@@ -83,28 +90,32 @@ class WCFDeserializerTab implements IMessageEditorTab
 	}
 
 	@Override
-	public byte[] getMessage() {
+	public byte[] getMessage()
+	{
 		// determine whether the user modified the deserialized data
-		if (txtInput.isTextModified()) {
+		if (txtInput.isTextModified())
+		{
 			// reserialize the data
-            byte[] newBody = WCFUtils.fromXML(txtInput.getText(), helpers);
-            if (newBody == null)
-            {
-                return currentMessage;
-            }
-            return helpers.buildHttpMessage(helpers.analyzeRequest(currentMessage).getHeaders(), newBody);
-
-		} else
+			byte[] newBody = WCFUtils.fromXML(txtInput.getText(), callbacks, helpers);
+			if (newBody == null)
+			{
+				return currentMessage;
+			}
+			return helpers.buildHttpMessage(helpers.analyzeRequest(currentMessage).getHeaders(), newBody);
+		}
+		else
 			return currentMessage;
 	}
 
 	@Override
-	public boolean isModified() {
+	public boolean isModified()
+	{
 		return txtInput.isTextModified();
 	}
 
 	@Override
-	public byte[] getSelectedData() {
+	public byte[] getSelectedData() 
+	{
 		return txtInput.getSelectedText();
 	}
 }

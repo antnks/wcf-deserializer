@@ -23,36 +23,44 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WCFMenu implements IContextMenuFactory {
+public class WCFMenu implements IContextMenuFactory
+{
 	private IBurpExtenderCallbacks callbacks;
     private IExtensionHelpers helpers;
 
-	public WCFMenu(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
+	public WCFMenu(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers)
+	{
 		this.callbacks = callbacks;
         this.helpers = helpers;
 	}
 
 	@Override
-	public List<JMenuItem> createMenuItems(final IContextMenuInvocation invocation) {
+	public List<JMenuItem> createMenuItems(final IContextMenuInvocation invocation)
+	{
 		JMenuItem sendWCFToIntruderMenu = new JMenuItem("Send Deserialized WCF to Intruder");
-		sendWCFToIntruderMenu.addMouseListener(new MouseListener() {
+		sendWCFToIntruderMenu.addMouseListener(new MouseListener()
+		{
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
+			public void mouseClicked(MouseEvent arg0)
+			{
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
+			public void mouseEntered(MouseEvent arg0)
+			{
 			}
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
+			public void mouseExited(MouseEvent arg0)
+			{
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
+			public void mousePressed(MouseEvent arg0)
+			{
 				IHttpRequestResponse[] selectedMessages = invocation.getSelectedMessages();
-				for (IHttpRequestResponse iReqResp : selectedMessages) {
+				for (IHttpRequestResponse iReqResp : selectedMessages)
+				{
 					IHttpService httpService = iReqResp.getHttpService();
 
 					//append our custom header and send to intruder
@@ -68,12 +76,13 @@ public class WCFMenu implements IContextMenuFactory {
 					System.arraycopy(message, bodyOffset, body, 0, message.length - bodyOffset);
 
 					callbacks.sendToIntruder(httpService.getHost(), httpService.getPort(), (httpService.getProtocol().equals("https") ? true : false),
-							WCFUtils.toXML(helpers.buildHttpMessage(headers, body), helpers));
+							WCFUtils.toXML(helpers.buildHttpMessage(headers, body), callbacks, helpers));
 				}
 			}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
+			public void mouseReleased(MouseEvent arg0)
+			{
 			}
 		});
 
@@ -81,5 +90,4 @@ public class WCFMenu implements IContextMenuFactory {
 		menus.add(sendWCFToIntruderMenu);
 		return menus;
 	}
-
 }
