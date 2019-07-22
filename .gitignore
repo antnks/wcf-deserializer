@@ -1,3 +1,5 @@
 .gradle
 build
 src/NBFS/NBFS.exe
+src/NBFS/bin/
+src/NBFS/obj/
