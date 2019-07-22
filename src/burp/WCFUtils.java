@@ -79,7 +79,7 @@ public class WCFUtils
 			{
 				String out = "";
 				byte[] binaryinput = helpers.stringToBytes(content);
-				if (binaryinput[0] == 0x1f && binaryinput[1] == 0x8b && binaryinput[2] == 0x08)
+				if (binaryinput[0] == (byte)0x1f && binaryinput[1] == (byte)0x8b && binaryinput[2] == (byte)0x08)
 				{
 					GZIPInputStream gzis = new GZIPInputStream(new ByteArrayInputStream(binaryinput));
 					byte[] buffer = new byte[1024];
@@ -108,6 +108,7 @@ public class WCFUtils
 		}
 		catch (Exception err)
 		{
+			callbacks.issueAlert(err.getMessage());
 			return err.getMessage();
 		}
 	}
