@@ -36,7 +36,10 @@ public class NBFSNetConsole
     public static void Main(string[] argv)
     {
         if (argv.Length < 1 || argv.Length > 2)
+        {
             Console.WriteLine("Usage: NBFS [encode|decode] Base64Data\n\nNOTE: All output, including exceptions, will be returned as a Base64 string.");
+            return;
+        }
 
         string input;
         if (argv.Length == 1)
