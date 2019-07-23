@@ -44,6 +44,17 @@ public class WCFHttpListener implements IHttpListener
 				List<String> headers = helpers.analyzeRequest(messageInfo.getRequest()).getHeaders();
 				headers.remove(WCFUtils.SERIALIZEHEADER);
 
+				// force content type of re-encoded request to msbin1
+				for (int i = 0; i < headers.size(); i++)
+				{
+					String header = headers.get(i);
+					if (header.startsWith("Content-Type:"))
+					{
+						headers.remove(i);
+						headers.add("Content-Type: application/soap+msbin1");
+					}
+				}
+
 				//extract the body
 				int bodyOffset = helpers.analyzeRequest(messageInfo.getRequest()).getBodyOffset();
 				byte[] request = messageInfo.getRequest();
