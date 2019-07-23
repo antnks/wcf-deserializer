@@ -20,8 +20,10 @@ package burp;
 import sun.security.provider.Sun;
 
 import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.io.Console;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.io.ByteArrayInputStream;
@@ -96,8 +98,11 @@ public class WCFUtils
 
 			String line;
 			String out;
-			String[] commandWithArgs = { "dotnet", "NBFS.dll" , strEncodeDecode, strBase64Content };
+			String[] commandWithArgs = { "dotnet", "NBFS.dll" , strEncodeDecode };
 			Process p = Runtime.getRuntime().exec(commandWithArgs);
+			PrintWriter stdin = new PrintWriter(new OutputStreamWriter(p.getOutputStream()), true);
+			stdin.write(strBase64Content + "\n");
+			stdin.flush();
 			BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			if ((line = input.readLine()) != null)
 				out = line;
