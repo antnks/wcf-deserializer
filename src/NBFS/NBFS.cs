@@ -41,16 +41,17 @@ public class NBFSNetConsole
             return;
         }
 
-        string input;
-        if (argv.Length == 1)
-            input = Console.ReadLine();
-        else
-            input = argv[1];
-
-        var binaryInput = Convert.FromBase64String(input);
-
         try
         {
+            string input;
+            if (argv.Length == 1)
+                input = Console.ReadLine();
+            else
+                input = argv[1];
+
+            var binaryInput = Convert.FromBase64String(input);
+
+
             NBFSNet NBFS = new NBFSNet();
 
             byte[] output;
