@@ -20,6 +20,7 @@ package burp;
 import javax.rmi.CORBA.Util;
 import java.awt.*;
 import java.io.IOException;
+import java.util.List;
 
 
 class WCFDeserializerTab implements IMessageEditorTab
@@ -95,13 +96,25 @@ class WCFDeserializerTab implements IMessageEditorTab
 		// determine whether the user modified the deserialized data
 		if (txtInput.isTextModified())
 		{
+			// force content type of re-encoded request to msbin1
+			List<String> headers = helpers.analyzeRequest(currentMessage).getHeaders();
+			for (int i = 0; i < headers.size(); i++)
+			{
+				String header = headers.get(i);
+				if (header.startsWith("Content-Type:"))
+				{
+					headers.remove(i);
+					headers.add("Content-Type: application/soap+msbin1");
+				}
+			}
+
 			// reserialize the data
 			byte[] newBody = WCFUtils.fromXML(txtInput.getText(), callbacks, helpers);
 			if (newBody == null)
 			{
 				return currentMessage;
 			}
-			return helpers.buildHttpMessage(helpers.analyzeRequest(currentMessage).getHeaders(), newBody);
+			return helpers.buildHttpMessage(headers, newBody);
 		}
 		else
 			return currentMessage;
