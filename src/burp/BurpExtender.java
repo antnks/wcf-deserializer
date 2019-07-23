@@ -37,7 +37,7 @@ public class BurpExtender implements IBurpExtender, IMessageEditorTabFactory
 		m_helpers = callbacks.getHelpers();
 		
 		// set our extension name
-		callbacks.setExtensionName("WCFSDSer-ngng Extended by Jon Murray 04/2015");
+		callbacks.setExtensionName("WCFSDSer-ngngng v.1.0 by Jon Murray 2015, Devsecurity 2019");
 		
 		// register ourselves as a message editor tab factory
 		WCFTabFactory factory = new WCFTabFactory(m_callbacks, m_helpers);
